@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './header.html',
 })
 export class Header {
