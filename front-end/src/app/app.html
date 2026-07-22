@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<div class="flex">
+  @if (showSidebar) {
+    <app-sidebar></app-sidebar>
+  }
+
+  <main class="flex-1 p-6 min-h-screen">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<app-footer></app-footer>
+
+

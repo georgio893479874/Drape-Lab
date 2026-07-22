@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CUSTOMER
+  MANAGER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentProvider {
+  LIQPAY
+  PORTMONE
+  STRIPE
+  CASH_ON_DELIVERY
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  phone        String?
+  role         UserRole  @default(CUSTOMER)
+  addresses    Address[]
+  orders       Order[]
+  reviews      Review[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  imageUrl    String?
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id            String             @id @default(cuid())
+  sku           String             @unique
+  name          String
+  slug          String             @unique
+  description   String
+  price         Float
+  discountPrice Float?
+  mainImageUrl  String
+  images        String[]
+  isActive      Boolean            @default(true)
+  categoryId    String
+  category      Category           @relation(fields: [categoryId], references: [id])
+  attributes    ProductAttribute[]
+  reviews       Review[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
+
+model ProductAttribute {
+  id        String  @id @default(cuid())
+  name      String
+  value     String
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Address {
+  id             String   @id @default(cuid())
+  recipientName  String
+  recipientPhone String
+  country        String
+  city           String
+  region         String?
+  postalCode     String?
+  streetAddress  String
+  isDefault      Boolean  @default(false)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?
+  sessionId String?
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  totalAmount    Float
+  status         OrderStatus @default(PENDING)
+  recipientName  String?
+  recipientPhone String?
+  country        String?
+  city           String?
+  streetAddress  String?
+  shippingMethod String
+  trackingNumber String?
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  items          OrderItem[]
+  payment        Payment?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model OrderItem {
+  id              String  @id @default(cuid())
+  orderId         String
+  order           Order   @relation(fields: [orderId], references: [id])
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  productName     String
+  quantity        Int
+  priceAtPurchase Float
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  userName   String
+  rating     Int
+  comment    String
+  isApproved Boolean  @default(false)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Payment {
+  id            String          @id @default(cuid())
+  amount        Float
+  currency      String          @default("UAH")
+  transactionId String?
+  provider      PaymentProvider
+  status        PaymentStatus   @default(PENDING)
+  orderId       String          @unique
+  order         Order           @relation(fields: [orderId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}

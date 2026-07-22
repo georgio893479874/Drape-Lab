@@ -1,0 +1,160 @@
+<div class="min-h-screen bg-slate-50">
+  <div class="mx-auto flex min-h-screen max-w-7xl items-center px-6 py-12">
+    <div
+      class="grid w-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl shadow-slate-900/5 lg:grid-cols-2"
+    >
+      <div class="flex items-center justify-center p-8 lg:p-16">
+        <div class="w-full max-w-md">
+          <div class="mb-12">
+            <span
+              class="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white"
+            >
+              Drape Lab
+            </span>
+
+            @if (isSignup) {
+              <h1 class="mt-6 text-5xl font-semibold tracking-tight text-slate-950">
+                Create Account
+              </h1>
+
+              <p class="mt-4 text-lg leading-8 text-slate-600">
+                Join our community and discover premium fashion pieces.
+              </p>
+            } @else {
+              <h1 class="mt-6 text-5xl font-semibold tracking-tight text-slate-950">
+                Welcome Back
+              </h1>
+
+              <p class="mt-4 text-lg leading-8 text-slate-600">
+                Sign in to continue your fashion journey.
+              </p>
+            }
+          </div>
+
+          <form class="space-y-6">
+            @if (isSignup) {
+              <div>
+                <label class="mb-3 block text-sm font-semibold text-slate-700"> First Name </label>
+                <input
+                  [(ngModel)]="firstName"
+                  name="firstName"
+                  type="text"
+                  placeholder="John Doe"
+                  class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-slate-950 focus:bg-white"
+                />
+                <label class="mb-3 block text-sm font-semibold text-slate-700"> Last Name </label>
+                <input
+                  [(ngModel)]="lastName"
+                  name="lastName"
+                  type="text"
+                  placeholder="John Doe"
+                  class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-slate-950 focus:bg-white"
+                />
+              </div>
+            }
+
+            <div>
+              <label class="mb-3 block text-sm font-semibold text-slate-700"> Email </label>
+
+              <input
+                [(ngModel)]="email"
+                name="email"
+                type="email"
+                placeholder="hello@example.com"
+                class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-slate-950 focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <div class="mb-3 flex items-center justify-between">
+                <label class="text-sm font-semibold text-slate-700"> Password </label>
+
+                @if (!isSignup) {
+                  <a href="#" class="text-sm font-medium text-slate-500 hover:text-slate-950">
+                    Forgot password?
+                  </a>
+                }
+              </div>
+
+              <input
+                [(ngModel)]="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-slate-950 focus:bg-white"
+              />
+            </div>
+
+            <div class="flex items-center gap-3">
+              <input type="checkbox" class="h-5 w-5 rounded border-slate-300" />
+
+              @if (isSignup) {
+                <span class="text-sm text-slate-600">
+                  I agree to the
+                  <a href="#" class="font-medium text-slate-950"> Terms & Conditions </a>
+                </span>
+              } @else {
+                <span class="text-sm text-slate-600"> Remember me </span>
+              }
+            </div>
+
+            <button
+              (click)="onSubmit()"
+              type="submit"
+              class="w-full rounded-full bg-slate-950 py-4 font-semibold text-white shadow-xl shadow-slate-950/20 transition hover:-translate-y-1 hover:bg-slate-800"
+            >
+              {{ isSignup ? 'Create Account' : 'Sign In' }}
+            </button>
+          </form>
+
+          <div class="my-8 flex items-center">
+            <div class="h-px flex-1 bg-slate-200"></div>
+            <span class="px-4 text-sm text-slate-500"> Continue with </span>
+            <div class="h-px flex-1 bg-slate-200"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <button
+              class="rounded-full border border-slate-200 bg-white py-4 font-medium text-slate-950 transition hover:bg-slate-50"
+            >
+              Google
+            </button>
+
+            <button
+              class="rounded-full border border-slate-200 bg-white py-4 font-medium text-slate-950 transition hover:bg-slate-50"
+            >
+              Apple
+            </button>
+          </div>
+
+          <div class="mt-10 text-center text-slate-600">
+            @if (isSignup) {
+              Already have an account?
+              <a routerLink="/signin" class="font-semibold text-slate-950"> Sign In </a>
+            } @else {
+              Don't have an account?
+              <a routerLink="/signup" class="font-semibold text-slate-950"> Create one </a>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="relative hidden lg:block">
+        <img src="auth-cover.webp" alt="Fashion" class="h-full w-full object-cover" />
+
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
+        ></div>
+
+        <div class="absolute bottom-10 left-10 max-w-sm text-white">
+          <p class="text-sm uppercase tracking-[0.35em] text-white/70">Drape Lab</p>
+
+          <h2 class="mt-4 text-4xl font-semibold">Modern Fashion. Timeless Style.</h2>
+
+          <p class="mt-4 text-white/80">
+            Discover carefully curated collections crafted for confident everyday wear.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

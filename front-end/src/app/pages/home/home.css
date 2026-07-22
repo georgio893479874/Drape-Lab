@@ -1,0 +1,128 @@
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  height: 690px;
+}
+.slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.9s cubic-bezier(0.22, 0.9, 0.45, 1);
+}
+.slide {
+  width: 100%;
+  flex: 0 0 100%;
+  height: 100%;
+}
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #020617;
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-arrow-prev {
+  left: 15px;
+}
+
+.slider-arrow-next {
+  right: 15px;
+}
+
+.slide img {
+  transition: transform 8s ease;
+}
+.slide:hover img {
+  transform: scale(1.06);
+  transition: transform 0.8s ease;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.gallery-item {
+  overflow: hidden;
+  border-radius: 16px;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.7);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.chart-gradient {
+  transition: width 0.7s ease, background 0.7s ease;
+}
+

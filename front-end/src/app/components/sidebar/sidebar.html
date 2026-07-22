@@ -1,0 +1,216 @@
+<div class="flex min-h-screen bg-gray-100">
+
+  <!-- Mobile Overlay -->
+  <div
+    *ngIf="isSidebarOpen"
+    (click)="closeSidebar()"
+    class="fixed inset-0 z-40 bg-black/50 lg:hidden">
+  </div>
+
+  <!-- Sidebar -->
+  <aside
+    class="
+      fixed
+      top-0
+      left-0
+      z-50
+      w-72
+      bg-white
+      border-r
+      border-gray-200
+      shadow-lg
+      transform
+      transition-transform
+      duration-300
+      lg:translate-x-0
+      lg:static
+      lg:z-auto
+      lg:shadow-sm
+      h-screen
+      overflow-y-auto
+    "
+    [class.-translate-x-full]="!isSidebarOpen"
+    [class.translate-x-0]="isSidebarOpen">
+
+    <div class="p-6">
+
+      <!-- Close button mobile -->
+      <div class="flex justify-end lg:hidden">
+        <button
+          (click)="closeSidebar()"
+          class="text-3xl">
+          ✕
+        </button>
+      </div>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Women's Fashion
+      </p>
+
+      <!-- Search -->
+      <div class="mt-6">
+        <input
+          type="text"
+          placeholder="Search..."
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black">
+      </div>
+
+      <!-- Categories -->
+      <div class="mt-8">
+
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Categories
+        </h3>
+
+        <ul class="space-y-2">
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👗 Dresses</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👚 Tops & Blouses</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👖 Jeans</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👖 Pants</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">🧥 Jackets</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">🧶 Sweaters</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👟 Shoes</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👜 Bags</a></li>
+
+          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">💍 Accessories</a></li>
+
+        </ul>
+
+      </div>
+
+      <!-- Price -->
+      <div class="mt-8">
+
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Price
+        </h3>
+
+        <input
+          type="range"
+          min="0"
+          max="500"
+          class="w-full accent-black">
+
+      </div>
+
+      <!-- Sizes -->
+      <div class="mt-8">
+
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Sizes
+        </h3>
+
+        <div class="grid grid-cols-3 gap-2">
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XS</button>
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">S</button>
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">M</button>
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">L</button>
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XL</button>
+
+          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XXL</button>
+
+        </div>
+
+      </div>
+
+      <!-- Colors -->
+      <div class="mt-8">
+
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Colors
+        </h3>
+
+        <div class="flex flex-wrap gap-3">
+
+          <button class="w-8 h-8 rounded-full bg-black"></button>
+
+          <button class="w-8 h-8 rounded-full border bg-white"></button>
+
+          <button class="w-8 h-8 rounded-full bg-red-500"></button>
+
+          <button class="w-8 h-8 rounded-full bg-pink-500"></button>
+
+          <button class="w-8 h-8 rounded-full bg-blue-500"></button>
+
+          <button class="w-8 h-8 rounded-full bg-green-500"></button>
+
+          <button class="w-8 h-8 rounded-full bg-yellow-400"></button>
+
+        </div>
+
+      </div>
+
+      <!-- Brands -->
+      <div class="mt-8">
+
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
+          Brands
+        </h3>
+
+        <div class="space-y-3">
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox"> Zara
+          </label>
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox"> Mango
+          </label>
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox"> H&M
+          </label>
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox"> Bershka
+          </label>
+
+          <label class="flex items-center gap-2">
+            <input type="checkbox"> Stradivarius
+          </label>
+
+        </div>
+
+      </div>
+
+      <button
+        class="mt-10 w-full rounded-xl bg-black py-3 text-white hover:bg-gray-800">
+        Apply Filters
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1">
+
+    <!-- Mobile header -->
+    <header class="sticky top-0 z-30 flex items-center justify-between bg-white p-4 shadow lg:hidden">
+
+      <button
+        (click)="openSidebar()"
+        class="text-3xl">
+        ☰
+      </button>
+
+    </header>
+
+
+
+  </div>
+
+</div>
