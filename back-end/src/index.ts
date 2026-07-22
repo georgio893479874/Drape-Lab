@@ -116,7 +116,7 @@ app.delete("/api/categories/:id", async (req: Request, res: Response) => {
 
 app.get("/api/products", async (req: Request, res: Response) => {
   try {
-    const { categoryId, search, page = "1", limit = "20" } = req.query;
+    const { categoryId, search, page = "1", limit = "12" } = req.query;
 
     const skip = (Number(page) - 1) * Number(limit);
 

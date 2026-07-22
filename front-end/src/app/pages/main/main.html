@@ -101,6 +101,43 @@
       }
     </div>
   </section>
+  @if (totalPages > 1) {
+    <div class="mt-10 flex justify-center">
+      <div class="flex items-center gap-2 rounded-full bg-white px-4 py-3 shadow-lg">
+        <!-- назад -->
+        <button
+          (click)="loadProducts(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="flex h-10 w-10 items-center justify-center rounded-full hover:bg-pink-100 disabled:opacity-30"
+        >
+          ‹
+        </button>
+
+        <!-- сторінки -->
+        @for (page of pages; track page) {
+          <button
+            (click)="loadProducts(page)"
+            class="h-10 w-10 rounded-full font-semibold transition"
+            [class.bg-pink-600]="currentPage === page"
+            [class.text-white]="currentPage === page"
+            [class.hover:bg-pink-100]="currentPage !== page"
+          >
+            {{ page }}
+          </button>
+        }
+
+        <!-- вперед -->
+        <button
+          (click)="loadProducts(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="flex h-10 w-10 items-center justify-center rounded-full hover:bg-pink-100 disabled:opacity-30"
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  }
+
   <section class="rounded-3xl bg-pink-100 p-10 text-center">
     <h2 class="text-3xl font-bold">Summer Sale</h2>
     <p class="mt-3 text-slate-600">Up to 50% discount on selected items</p>
