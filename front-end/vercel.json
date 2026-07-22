@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/front-end/browser",
+  "rewrites": [
     {
-      "src": "dist/front-end/server/server.mjs",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/front-end/server/server.mjs"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
