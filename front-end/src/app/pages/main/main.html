@@ -57,6 +57,7 @@
       @for (product of products; track product.id) {
         <article
           class="group overflow-hidden rounded-3xl bg-white shadow-lg hover:shadow-2xl transition"
+          [routerLink]="['/products', product.id]"
         >
           <img [src]="product.mainImageUrl" [alt]="product.name" class="w-full object-cover" />
 

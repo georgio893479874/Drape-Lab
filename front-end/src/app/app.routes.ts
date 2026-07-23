@@ -5,6 +5,7 @@ import { Signin } from './pages/signin/signin';
 import { Signup } from './pages/signup/signup';
 import { Search } from './pages/search/search';
 import { Main } from './pages/main/main';
+import { Product } from './pages/product/product';
 
 export const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'search', component: Search },
   { path: 'main', component: Main },
+  { path: 'products/:id', component: Product },
 ];
 

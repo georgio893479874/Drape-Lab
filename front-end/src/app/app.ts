@@ -13,11 +13,21 @@ import { Sidebar } from './components/sidebar/sidebar';
   styleUrls: ['./app.css'],
 })
 export class App {
-  showSidebar = true;
+  sidebarOpen = false;
+  showSidebar = false;
+
+  openSidebar() {
+    this.sidebarOpen = true;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
+  }
 
   constructor(private router: Router) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       const hiddenRoutes = ['/signin', '/signup', '/', '/gallery'];
+
       this.showSidebar = !hiddenRoutes.includes(this.router.url);
     });
   }

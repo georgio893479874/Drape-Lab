@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   selector: 'app-gallery',
   imports: [CommonModule],
   templateUrl: './gallery.html',
-  styleUrl: './gallery.css',
 })
 export class Gallery {
   showLightbox = false;

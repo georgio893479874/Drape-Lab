@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-main',
+  imports: [RouterLink],
   standalone: true,
   templateUrl: './main.html',
-  styleUrl: './main.css',
 })
 export class Main implements OnInit {
 

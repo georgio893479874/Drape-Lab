@@ -1,1 +1,251 @@
-<p>product works!</p>
+@if (product) {
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+  <div
+    class="mb-8 flex flex-wrap items-center gap-2 text-sm text-slate-500"
+  >
+    <span>Home</span>
+    <span>/</span>
+    <span>{{ product.category?.name }}</span>
+    <span>/</span>
+    <span class="text-slate-900">{{ product.name }}</span>
+  </div>
+
+  <section class="grid gap-8 xl:grid-cols-[100px_1fr_500px]">
+
+    <div
+      class="order-2 flex gap-3 overflow-x-auto xl:order-1 xl:flex-col"
+    >
+      <img
+        [src]="product.mainImageUrl"
+        (click)="selectImage(product.mainImageUrl)"
+        class="h-24 w-24 shrink-0 cursor-pointer rounded-2xl border object-cover transition hover:border-black"
+      />
+
+      @for (image of product.images; track image) {
+      <img
+        [src]="image"
+        (click)="selectImage(image)"
+        class="h-24 w-24 shrink-0 cursor-pointer rounded-2xl border object-cover transition hover:border-black"
+      />
+      }
+    </div>
+
+    <div class="order-1 xl:order-2">
+      <div
+        class="overflow-hidden rounded-[2rem] bg-slate-100 shadow-2xl"
+      >
+        <img
+          [src]="selectedImage"
+          [alt]="product.name"
+          class="h-full max-h-[850px] w-full object-cover transition duration-500 hover:scale-105"
+        />
+      </div>
+    </div>
+
+    <div class="order-3 xl:sticky xl:top-8 xl:h-fit">
+
+      <div class="mb-5 flex flex-wrap items-center gap-3">
+        <span
+          class="rounded-full bg-pink-100 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-pink-700"
+        >
+          Luxury Collection
+        </span>
+
+        <span class="text-sm text-slate-500">
+          SKU: {{ product.sku }}
+        </span>
+      </div>
+
+      <h1
+        class="text-3xl font-bold leading-tight text-slate-900 md:text-4xl xl:text-5xl"
+      >
+        {{ product.name }}
+      </h1>
+
+      <div class="mt-5 flex items-center gap-3">
+        <span class="text-yellow-400">★★★★★</span>
+        <span class="text-sm text-slate-500">
+          4.9 (127 reviews)
+        </span>
+      </div>
+
+      <p
+        class="mt-8 text-base leading-relaxed text-slate-600 md:text-lg"
+      >
+        {{ product.description }}
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-end gap-4">
+        <span
+          class="text-3xl font-bold text-slate-900 md:text-4xl xl:text-5xl"
+        >
+          ${{ product.discountPrice || product.price }}
+        </span>
+
+        @if (product.discountPrice) {
+        <span
+          class="text-xl text-slate-400 line-through md:text-2xl"
+        >
+          ${{ product.price }}
+        </span>
+        }
+      </div>
+
+      <div class="mt-10">
+
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="font-semibold">Size</h3>
+
+          <button
+            class="text-sm text-slate-500 hover:text-black"
+          >
+            Size Guide
+          </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 sm:grid-cols-5">
+          @for (size of sizes; track size) {
+          <button
+            (click)="selectSize(size)"
+            class="rounded-xl border p-3 font-medium transition"
+            [class.bg-black]="selectedSize === size"
+            [class.text-white]="selectedSize === size"
+          >
+            {{ size }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <div class="mt-8">
+
+        <h3 class="mb-3 font-semibold">Quantity</h3>
+
+        <div
+          class="flex w-fit items-center overflow-hidden rounded-xl border"
+        >
+          <button
+            (click)="decreaseQuantity()"
+            class="px-5 py-3 transition hover:bg-slate-100"
+          >
+            −
+          </button>
+
+          <span class="px-8 font-semibold">
+            {{ quantity }}
+          </span>
+
+          <button
+            (click)="increaseQuantity()"
+            class="px-5 py-3 transition hover:bg-slate-100"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+
+        <button
+          class="flex-1 rounded-full bg-black px-8 py-4 font-semibold text-white transition hover:bg-pink-600"
+        >
+          Add To Cart
+        </button>
+
+        <button
+          class="rounded-full border px-6 py-4 transition hover:bg-slate-100"
+        >
+          ♡
+        </button>
+
+      </div>
+
+      <div
+        class="mt-10 rounded-3xl border border-slate-200 bg-slate-50 p-6"
+      >
+        <div class="space-y-3 text-sm">
+
+          <div class="flex justify-between">
+            <span class="text-slate-500">Free Shipping</span>
+            <span class="font-medium">Worldwide</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span class="text-slate-500">Returns</span>
+            <span class="font-medium">30 Days</span>
+          </div>
+
+          <div class="flex justify-between">
+            <span class="text-slate-500">Authenticity</span>
+            <span class="font-medium">Guaranteed</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section
+    class="mt-20 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg md:p-10"
+  >
+    <h2
+      class="mb-10 text-2xl font-bold md:text-3xl"
+    >
+      Product Specifications
+    </h2>
+
+    <div class="divide-y">
+
+      @for (attribute of product.attributes; track attribute.id) {
+      <div
+        class="flex flex-col gap-2 py-5 sm:flex-row sm:justify-between"
+      >
+        <span class="text-slate-500">
+          {{ attribute.name }}
+        </span>
+
+        <span
+          class="max-w-xl font-semibold sm:text-right"
+        >
+          {{ attribute.value }}
+        </span>
+      </div>
+      }
+
+    </div>
+  </section>
+
+  <section
+    class="mt-20 overflow-hidden rounded-[2rem] bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 px-6 py-12 text-center text-white md:px-10 md:py-16"
+  >
+    <p
+      class="mb-4 uppercase tracking-[0.4em] text-slate-400"
+    >
+      Luxury Collection
+    </p>
+
+    <h2
+      class="text-3xl font-bold md:text-4xl xl:text-5xl"
+    >
+      Designed To Be Unforgettable
+    </h2>
+
+    <p
+      class="mx-auto mt-6 max-w-2xl text-slate-300"
+    >
+      Every couture piece is crafted with exceptional
+      attention to detail, premium materials and timeless
+      elegance.
+    </p>
+
+    <button
+      class="mt-8 rounded-full bg-white px-8 py-4 font-semibold text-slate-900 transition hover:scale-105"
+    >
+      Explore Collection
+    </button>
+  </section>
+
+</div>
+}

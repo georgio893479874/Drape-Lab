@@ -1,20 +1,16 @@
 <div class="flex min-h-screen bg-gray-100">
-
-  <!-- Mobile Overlay -->
   <div
     *ngIf="isSidebarOpen"
     (click)="closeSidebar()"
     class="fixed inset-0 z-40 bg-black/50 lg:hidden">
   </div>
-
-  <!-- Sidebar -->
   <aside
     class="
       fixed
       top-0
       left-0
       z-50
-      w-72
+      w-[85vw] max-w-xs
       bg-white
       border-r
       border-gray-200
@@ -194,23 +190,4 @@
     </div>
 
   </aside>
-
-  <!-- Main -->
-  <div class="flex-1">
-
-    <!-- Mobile header -->
-    <header class="sticky top-0 z-30 flex items-center justify-between bg-white p-4 shadow lg:hidden">
-
-      <button
-        (click)="openSidebar()"
-        class="text-3xl">
-        ☰
-      </button>
-
-    </header>
-
-
-
-  </div>
-
 </div>

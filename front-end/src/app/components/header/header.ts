@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [],
   templateUrl: './header.html',
+  imports: [CommonModule]
 })
 export class Header {
-  @Input() title!: string;
+  @Input() showMenuButton = false;
+  @Output() menuClick = new EventEmitter<void>();
 }
