@@ -27,10 +27,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "security": {
-              "allowedHosts": []
-            }
+            ]
           },
           "configurations": {
             "production": {

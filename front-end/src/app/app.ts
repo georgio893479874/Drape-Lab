@@ -5,6 +5,7 @@ import { Footer } from './components/footer/footer';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { Sidebar } from './components/sidebar/sidebar';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-root',

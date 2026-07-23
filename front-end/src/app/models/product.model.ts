@@ -1,3 +1,5 @@
+import { Category } from "./category.model";
+
 export interface Product {
   id: string;
   sku: string;
@@ -11,9 +13,11 @@ export interface Product {
   categoryId: string;
   isActive: boolean;
   attributes?: ProductAttribute[];
+  category?: Category;
 }
 
 export interface ProductAttribute {
+  id: string;
   name: string;
   value: string;
 }
