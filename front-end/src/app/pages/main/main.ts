@@ -10,7 +10,6 @@ import { RouterLink } from '@angular/router';
   templateUrl: './main.html',
 })
 export class Main implements OnInit {
-
   private http = inject(HttpClient);
 
   products: any[] = [];
@@ -23,39 +22,35 @@ export class Main implements OnInit {
 
   pages: number[] = [];
 
-
   ngOnInit() {
     this.loadProducts();
   }
 
-
   loadProducts(page: number = 1) {
-    
     this.loading = true;
+    this.http
+      .get<any>(`${environment.apiUrl}/products?page=${page}&limit=${this.limit}`)
+      .subscribe({
+        next: (res) => {
+          console.log('RES', res);
+          console.log('DATA', res.data);
 
-    this.http.get<any>(
-      `${environment.apiUrl}/products?page=${page}&limit=${this.limit}`
-    )
-    .subscribe({
-      next: (res) => {
+          this.products = res.data;
 
-        this.products = res.data;
+          this.products = res.data;
 
-        this.currentPage = res.page;
-        this.totalPages = res.pages;
+          this.currentPage = res.page;
+          this.totalPages = res.pages;
 
-        this.pages = Array.from(
-          { length: this.totalPages },
-          (_, i) => i + 1
-        );
+          this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
-        this.loading = false;
-      },
+          this.loading = false;
+        },
 
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-      }
-    });
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+        },
+      });
   }
 }
