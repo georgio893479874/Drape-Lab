@@ -1,54 +1,66 @@
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+<header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
   <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
     <div class="flex items-center gap-3">
       <button
         *ngIf="showMenuButton"
         (click)="menuClick.emit()"
-        class="lg:hidden rounded-lg p-2 hover:bg-slate-100"
+        class="rounded-lg p-2 transition hover:bg-slate-100 lg:hidden"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
+        <ng-icon name="heroBars3" size="24"></ng-icon>
       </button>
-      <a href="/" class="text-lg sm:text-2xl font-semibold tracking-[0.25em] text-slate-950">
+      <a routerLink="/" class="text-lg font-semibold tracking-[0.25em] text-slate-950 sm:text-2xl">
         Drape Lab
       </a>
     </div>
-    <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-700">
-      <a href="/">Home</a>
-      <a href="/">Deals</a>
-      <a href="/">New Arrivals</a>
-      <a href="/">Packages</a>
+    <nav class="hidden items-center gap-8 text-sm font-medium text-slate-700 lg:flex">
+      <a routerLink="/" class="transition hover:text-black">Home</a>
+      <a routerLink="/" class="transition hover:text-black">Deals</a>
+      <a routerLink="/" class="transition hover:text-black">New Arrivals</a>
+      <a routerLink="/" class="transition hover:text-black">Packages</a>
     </nav>
-    <div class="flex items-center gap-2">
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="/signin" class="text-sm font-medium text-slate-700"> Sign In </a>
+    @if (!isLoggedIn) {
+      <div class="hidden items-center gap-3 sm:flex">
         <a
-          href="/signup"
-          class="rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white"
+          routerLink="/signin"
+          class="text-sm font-medium text-slate-700 transition hover:text-black"
+        >
+          Sign In
+        </a>
+        <a
+          routerLink="/signup"
+          class="rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
         >
           Sign Up
         </a>
       </div>
-      <div class="flex sm:hidden items-center gap-2">
-        <a href="/signin" class="rounded-full p-2 hover:bg-slate-100">
-          <ng-icon name="heroArrowLeftOnRectangle" size="20px"></ng-icon>
+      <div class="flex items-center gap-2 sm:hidden">
+        <a routerLink="/signin" class="rounded-full p-2 transition hover:bg-slate-100">
+          <ng-icon name="heroArrowLeftOnRectangle" size="20"> </ng-icon>
         </a>
-        <a href="/signup" class="rounded-full p-2 bg-slate-950 text-white size-10 flex justify-center items-center">
-          <ng-icon name="heroUserPlus" size="20px"></ng-icon>
+        <a
+          routerLink="/signup"
+          class="flex size-10 items-center justify-center rounded-full bg-slate-950 text-white transition hover:bg-slate-800"
+        >
+          <ng-icon name="heroUserPlus" size="20"> </ng-icon>
         </a>
       </div>
-    </div>
+    } @else {
+      <div class="flex items-center gap-2">
+        <a routerLink="/cart" class="relative rounded-full p-2 transition hover:bg-slate-100">
+          <ng-icon name="heroShoppingBag" size="23"></ng-icon>
+          <span
+            class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white"
+          >
+            0
+          </span>
+        </a>
+        <a routerLink="/profile" class="rounded-full p-2 transition hover:bg-slate-100">
+          <ng-icon name="heroUserCircle" size="28"> </ng-icon>
+        </a>
+        <button (click)="logout()" class="rounded-full p-2 transition hover:bg-slate-100">
+          <ng-icon name="heroArrowLeftOnRectangle" size="22"> </ng-icon>
+        </button>
+      </div>
+    }
   </div>
 </header>

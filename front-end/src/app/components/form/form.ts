@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-form',
@@ -12,6 +14,8 @@ import { environment } from '../../../environments/environment';
 })
 export class Form {
   private http = inject(HttpClient);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   password = '';
   firstName = '';
@@ -45,6 +49,8 @@ export class Form {
         })
         .subscribe({
           next: (response) => {
+            this.auth.login(response.user);
+            this.router.navigate(['/main']);
             console.log('Login successful:', response);
           },
           error: (error) => {
