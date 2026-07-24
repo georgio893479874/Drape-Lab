@@ -6,14 +6,16 @@ import { Signup } from './pages/signup/signup';
 import { Search } from './pages/search/search';
 import { Main } from './pages/main/main';
 import { Product } from './pages/product/product';
+import { Cart } from './pages/cart/cart';
 
 export const routes: Routes = [
-  { path: '', component: Home, pathMatch: 'full' },
+  { path: '', component: Home },
   { path: 'gallery', component: Gallery },
   { path: 'signin', component: Signin },
   { path: 'signup', component: Signup },
   { path: 'search', component: Search },
   { path: 'main', component: Main },
   { path: 'products/:id', component: Product },
+  { path: 'cart', component: Cart },
 ];
 

@@ -1,193 +1,89 @@
 <div class="flex min-h-screen bg-gray-100">
-  <div
-    *ngIf="isSidebarOpen"
-    (click)="closeSidebar()"
-    class="fixed inset-0 z-40 bg-black/50 lg:hidden">
-  </div>
+  <div *ngIf="isOpen" (click)="close.emit()" class="fixed inset-0 z-40 bg-black/50 lg:hidden"></div>
   <aside
-    class="
-      fixed
-      top-0
-      left-0
-      z-50
-      w-[85vw] max-w-xs
-      bg-white
-      border-r
-      border-gray-200
-      shadow-lg
-      transform
-      transition-transform
-      duration-300
-      lg:translate-x-0
-      lg:static
-      lg:z-auto
-      lg:shadow-sm
-      h-screen
-      overflow-y-auto
-    "
-    [class.-translate-x-full]="!isSidebarOpen"
-    [class.translate-x-0]="isSidebarOpen">
-
+    class="fixed top-0 left-0 z-50 h-screen w-[85vw] max-w-xs overflow-y-auto border-r border-gray-200 bg-white shadow-lg transition-transform duration-300 lg:static lg:z-auto lg:translate-x-0 lg:shadow-sm"
+    [class.-translate-x-full]="!isOpen"
+    [class.translate-x-0]="isOpen"
+  >
     <div class="p-6">
-
-      <!-- Close button mobile -->
       <div class="flex justify-end lg:hidden">
-        <button
-          (click)="closeSidebar()"
-          class="text-3xl">
-          ✕
-        </button>
+        <button (click)="close.emit()" class="text-3xl">✕</button>
       </div>
-
-      <p class="mt-1 text-sm text-gray-500">
-        Women's Fashion
-      </p>
-
-      <!-- Search -->
+      <p class="mt-1 text-sm text-gray-500">Women's Fashion</p>
       <div class="mt-6">
         <input
           type="text"
           placeholder="Search..."
-          class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black">
+          (input)="searchProduct()"
+          [(ngModel)]="search"
+          (keyup.enter)="applyFilters()"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black"
+        />
       </div>
-
-      <!-- Categories -->
       <div class="mt-8">
-
         <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
           Categories
         </h3>
-
-        <ul class="space-y-2">
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👗 Dresses</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👚 Tops & Blouses</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👖 Jeans</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👖 Pants</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">🧥 Jackets</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">🧶 Sweaters</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👟 Shoes</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">👜 Bags</a></li>
-
-          <li><a class="block rounded-lg px-3 py-2 hover:bg-gray-100">💍 Accessories</a></li>
-
-        </ul>
-
+        <div class="space-y-2">
+          @for (category of categories; track category.id) {
+            <button
+              (click)="selectCategory(category.id)"
+              class="block w-full rounded-lg px-3 py-2 text-left transition hover:bg-gray-100"
+              [class.bg-black]="selectedCategory === category.id"
+              [class.text-white]="selectedCategory === category.id"
+            >
+              {{ category.name }}
+            </button>
+          }
+        </div>
       </div>
-
-      <!-- Price -->
       <div class="mt-8">
-
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Price
-        </h3>
-
+        <div class="mb-2 flex justify-between text-sm">
+          <span>${{ minPrice }}</span>
+          <span>${{ selectedPrice }}</span>
+        </div>
         <input
           type="range"
-          min="0"
-          max="500"
-          class="w-full accent-black">
-
+          [min]="minPrice"
+          [max]="maxPrice"
+          [(ngModel)]="selectedPrice"
+          class="w-full accent-black"
+        />
       </div>
-
-      <!-- Sizes -->
       <div class="mt-8">
-
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Sizes
-        </h3>
-
-        <div class="grid grid-cols-3 gap-2">
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XS</button>
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">S</button>
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">M</button>
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">L</button>
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XL</button>
-
-          <button class="rounded-lg border py-2 hover:bg-black hover:text-white">XXL</button>
-
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Sizes</h3>
+        <div class="grid grid-cols-3 gap-3">
+          @for (size of sizes; track size) {
+            <button
+              (click)="selectSize(size)"
+              class="rounded-lg border py-2 transition"
+              [class.bg-black]="selectedSize === size"
+              [class.text-white]="selectedSize === size"
+            >
+              {{ size }}
+            </button>
+          }
         </div>
-
       </div>
-
-      <!-- Colors -->
       <div class="mt-8">
-
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Colors
-        </h3>
-
-        <div class="flex flex-wrap gap-3">
-
-          <button class="w-8 h-8 rounded-full bg-black"></button>
-
-          <button class="w-8 h-8 rounded-full border bg-white"></button>
-
-          <button class="w-8 h-8 rounded-full bg-red-500"></button>
-
-          <button class="w-8 h-8 rounded-full bg-pink-500"></button>
-
-          <button class="w-8 h-8 rounded-full bg-blue-500"></button>
-
-          <button class="w-8 h-8 rounded-full bg-green-500"></button>
-
-          <button class="w-8 h-8 rounded-full bg-yellow-400"></button>
-
-        </div>
-
+        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Colors</h3>
+        @for (color of colors; track color) {
+          <button
+            (click)="selectColor(color)"
+            class="h-8 w-8 rounded-full border-2"
+            [style.background]="color"
+            [class.border-black]="selectedColor === color"
+            [class.border-gray-300]="selectedColor !== color"
+            [ngStyle]="getColorStyle(color)"
+          ></button>
+        }
       </div>
-
-      <!-- Brands -->
-      <div class="mt-8">
-
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Brands
-        </h3>
-
-        <div class="space-y-3">
-
-          <label class="flex items-center gap-2">
-            <input type="checkbox"> Zara
-          </label>
-
-          <label class="flex items-center gap-2">
-            <input type="checkbox"> Mango
-          </label>
-
-          <label class="flex items-center gap-2">
-            <input type="checkbox"> H&M
-          </label>
-
-          <label class="flex items-center gap-2">
-            <input type="checkbox"> Bershka
-          </label>
-
-          <label class="flex items-center gap-2">
-            <input type="checkbox"> Stradivarius
-          </label>
-
-        </div>
-
-      </div>
-
       <button
-        class="mt-10 w-full rounded-xl bg-black py-3 text-white hover:bg-gray-800">
+        (click)="applyFilters()"
+        class="mt-10 w-full rounded-xl bg-black py-3 text-white transition hover:bg-gray-800"
+      >
         Apply Filters
       </button>
-
     </div>
-
   </aside>
 </div>

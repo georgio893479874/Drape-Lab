@@ -6,10 +6,12 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 
 const app = express();
-app.use(cors({
-  origin: `${process.env.FRONT_END_URL}`,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: `${process.env.FRONT_END_URL}`,
+    credentials: true,
+  }),
+);
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
 });
@@ -114,20 +116,88 @@ app.delete("/api/categories/:id", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/api/filters/colors", async (_, res) => {
+  const colors = await prisma.productAttribute.findMany({
+    where: {
+      name: "Color",
+    },
+
+    distinct: ["value"],
+
+    select: {
+      value: true,
+    },
+  });
+
+  res.json(colors.map((c) => c.value));
+});
+
+app.get("/api/filters/sizes", async (_, res) => {
+  const sizes = await prisma.productAttribute.findMany({
+    where: {
+      name: "Size",
+    },
+
+    distinct: ["value"],
+
+    select: {
+      value: true,
+    },
+  });
+
+  res.json(sizes.map((s) => s.value));
+});
+
+app.get("/api/filters/brands", async (_, res) => {
+  const brands = await prisma.productAttribute.findMany({
+    where: {
+      name: "Brand",
+    },
+
+    distinct: ["value"],
+
+    select: {
+      value: true,
+    },
+  });
+
+  res.json(brands.map((b) => b.value));
+});
+
+app.get("/api/filters/price", async (_, res) => {
+  const result = await prisma.product.aggregate({
+    _min: {
+      price: true,
+    },
+    _max: {
+      price: true,
+    },
+  });
+
+  res.json({
+    min: result._min.price ?? 0,
+    max: result._max.price ?? 0,
+  });
+});
+
 app.get("/api/products", async (req: Request, res: Response) => {
   try {
-    const { categoryId, search, page = "1", limit = "12" } = req.query;
-
+    const {
+      page = "1",
+      limit = "12",
+      search,
+      categoryId,
+      minPrice,
+      maxPrice,
+      color,
+      size,
+      brand,
+      sort = "newest",
+    } = req.query;
     const skip = (Number(page) - 1) * Number(limit);
-
     const where: any = {
       isActive: true,
     };
-
-    if (categoryId) {
-      where.categoryId = String(categoryId);
-    }
-
     if (search) {
       where.OR = [
         {
@@ -145,16 +215,94 @@ app.get("/api/products", async (req: Request, res: Response) => {
       ];
     }
 
+    if (categoryId) {
+      where.categoryId = String(categoryId);
+    }
+
+    if (minPrice || maxPrice) {
+      where.price = {};
+
+      if (minPrice) where.price.gte = Number(minPrice);
+
+      if (maxPrice) where.price.lte = Number(maxPrice);
+    }
+
+    const attributeFilters = [];
+
+    if (color) {
+      attributeFilters.push({
+        name: "Color",
+        value: String(color),
+      });
+    }
+
+    if (size) {
+      attributeFilters.push({
+        name: "Size",
+        value: String(size),
+      });
+    }
+
+    if (brand) {
+      attributeFilters.push({
+        name: "Brand",
+        value: String(brand),
+      });
+    }
+
+    if (attributeFilters.length) {
+      where.AND = attributeFilters.map((item) => ({
+        attributes: {
+          some: item,
+        },
+      }));
+    }
+
+    let orderBy: any = {
+      createdAt: "desc",
+    };
+
+    switch (sort) {
+      case "priceAsc":
+        orderBy = {
+          price: "asc",
+        };
+        break;
+
+      case "priceDesc":
+        orderBy = {
+          price: "desc",
+        };
+        break;
+
+      case "name":
+        orderBy = {
+          name: "asc",
+        };
+        break;
+      case "newest":
+      default:
+        orderBy = {
+          createdAt: "desc",
+        };
+    }
+
     const [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
+
         include: {
           category: true,
           attributes: true,
         },
+
+        orderBy,
+
         skip,
+
         take: Number(limit),
       }),
+
       prisma.product.count({
         where,
       }),
@@ -162,8 +310,11 @@ app.get("/api/products", async (req: Request, res: Response) => {
 
     res.json({
       data: products,
+
       total,
+
       page: Number(page),
+
       pages: Math.ceil(total / Number(limit)),
     });
   } catch (error: any) {
@@ -402,10 +553,7 @@ app.post("/api/auth/login", async (req: Request, res: Response) => {
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      user.passwordHash
-    );
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -845,7 +993,6 @@ app.patch("/api/payments/:id/status", async (req: Request, res: Response) => {
 async function bootstrap() {
   try {
     await prisma.$connect();
-
     console.log("✅ PostgreSQL connected");
     console.log("✅ Prisma connected");
 

@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -12,6 +13,7 @@ import { environment } from '../../../environments/environment';
 export class Product implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
+  private cartService = inject(CartService);
 
   product: any = null;
 
@@ -24,11 +26,7 @@ export class Product implements OnInit {
   ngOnInit() {
     this.route.paramMap
       .pipe(
-        switchMap((params) =>
-          this.http.get(
-            `${environment.apiUrl}/products/${params.get('id')}`
-          )
-        )
+        switchMap((params) => this.http.get(`${environment.apiUrl}/products/${params.get('id')}`)),
       )
       .subscribe((product: any) => {
         this.product = product;
@@ -52,5 +50,11 @@ export class Product implements OnInit {
     if (this.quantity > 1) {
       this.quantity--;
     }
+  }
+
+  addToCart() {
+    this.cartService.addItem(this.product.id, this.quantity).subscribe(() => {
+      console.log('Product added to cart!');
+    });
   }
 }

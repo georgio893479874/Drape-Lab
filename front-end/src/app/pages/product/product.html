@@ -27,7 +27,7 @@
           <img
             [src]="selectedImage"
             [alt]="product.name"
-            class="h-full max-h-[850px] w-full object-cover transition duration-500 hover:scale-105"
+            class="h-full w-full object-cover transition duration-500 hover:scale-105"
           />
         </div>
       </div>
@@ -95,6 +95,7 @@
         </div>
         <div class="mt-10 flex flex-col gap-4 sm:flex-row">
           <button
+            (click)="addToCart()"
             class="flex-1 rounded-full bg-black px-8 py-4 font-semibold text-white transition hover:bg-pink-600"
           >
             Add To Cart

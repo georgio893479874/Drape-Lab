@@ -5,7 +5,6 @@ import { Footer } from './components/footer/footer';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { Sidebar } from './components/sidebar/sidebar';
-import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +26,15 @@ export class App {
 
   constructor(private router: Router) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      const hiddenRoutes = ['/signin', '/signup', '/', '/gallery'];
+      const url = this.router.url;
 
-      this.showSidebar = !hiddenRoutes.includes(this.router.url);
+      this.showSidebar =
+        !url.startsWith('/products/') &&
+        url !== '/' &&
+        url !== '/signin' &&
+        url !== '/signup' &&
+        url !== '/gallery' &&
+        url !== '/cart';
     });
   }
 }

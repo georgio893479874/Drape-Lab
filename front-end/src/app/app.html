@@ -2,12 +2,20 @@
   [showMenuButton]="showSidebar"
   (menuClick)="openSidebar()">
 </app-header>
+
 <div class="flex">
+
   @if (showSidebar) {
-    <app-sidebar #sidebar></app-sidebar>
+    <app-sidebar
+      [isOpen]="sidebarOpen"
+      (close)="closeSidebar()">
+    </app-sidebar>
   }
+
   <main class="min-h-screen flex-1">
     <router-outlet></router-outlet>
   </main>
+
 </div>
+
 <app-footer></app-footer>
