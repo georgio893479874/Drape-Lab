@@ -16,12 +16,10 @@ export class Product implements OnInit {
   private cartService = inject(CartService);
 
   product: any = null;
-
   selectedImage = '';
   quantity = 1;
-
-  readonly sizes = ['XS', 'S', 'M', 'L', 'XL'];
-  selectedSize = 'M';
+  sizes: string[] = [];
+  selectedSize = '';
 
   ngOnInit() {
     this.route.paramMap
@@ -31,7 +29,21 @@ export class Product implements OnInit {
       .subscribe((product: any) => {
         this.product = product;
         this.selectedImage = product.mainImageUrl;
+
+        this.sizes = product.attributes
+          .filter((a: any) => a.name === 'Size')
+          .map((a: any) => a.value);
+
+        this.selectedSize = this.sizes[0] ?? '';
       });
+
+    this.http.get<string[]>(`${environment.apiUrl}/filters/sizes`).subscribe((res) => {
+      this.sizes = res;
+
+      if (res.length) {
+        this.selectedSize = res[0];
+      }
+    });
   }
 
   selectImage(image: string) {
