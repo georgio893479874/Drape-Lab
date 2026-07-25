@@ -3,10 +3,7 @@
   (menuClick)="openSidebar()">
 </app-header>
 
-<app-breadcrumb></app-breadcrumb>
-
 <div class="flex">
-
   @if (showSidebar) {
     <app-sidebar
       [isOpen]="sidebarOpen"
@@ -14,10 +11,12 @@
     </app-sidebar>
   }
 
-  <main class="min-h-screen flex-1">
-    <router-outlet></router-outlet>
+  <main class="flex-1 min-h-screen">
+    <app-breadcrumb></app-breadcrumb>
+    <div class="mt-6">
+      <router-outlet></router-outlet>
+    </div>
   </main>
-
 </div>
 
 <app-footer></app-footer>

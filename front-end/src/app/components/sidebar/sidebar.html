@@ -1,89 +1,85 @@
-<div class="flex min-h-screen bg-gray-100">
-  <div *ngIf="isOpen" (click)="close.emit()" class="fixed inset-0 z-40 bg-black/50 lg:hidden"></div>
-  <aside
-    class="fixed top-0 left-0 z-50 h-screen w-[85vw] max-w-xs overflow-y-auto border-r border-gray-200 bg-white shadow-lg transition-transform duration-300 lg:static lg:z-auto lg:translate-x-0 lg:shadow-sm"
-    [class.-translate-x-full]="!isOpen"
-    [class.translate-x-0]="isOpen"
-  >
-    <div class="p-6">
-      <div class="flex justify-end lg:hidden">
-        <button (click)="close.emit()" class="text-3xl">✕</button>
-      </div>
-      <p class="mt-1 text-sm text-gray-500">Women's Fashion</p>
-      <div class="mt-6">
-        <input
-          type="text"
-          placeholder="Search..."
-          (input)="searchProduct()"
-          [(ngModel)]="search"
-          (keyup.enter)="applyFilters()"
-          class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black"
-        />
-      </div>
-      <div class="mt-8">
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Categories
-        </h3>
-        <div class="space-y-2">
-          @for (category of categories; track category.id) {
-            <button
-              (click)="selectCategory(category.id)"
-              class="block w-full rounded-lg px-3 py-2 text-left transition hover:bg-gray-100"
-              [class.bg-black]="selectedCategory === category.id"
-              [class.text-white]="selectedCategory === category.id"
-            >
-              {{ category.name }}
-            </button>
-          }
-        </div>
-      </div>
-      <div class="mt-8">
-        <div class="mb-2 flex justify-between text-sm">
-          <span>${{ minPrice }}</span>
-          <span>${{ selectedPrice }}</span>
-        </div>
-        <input
-          type="range"
-          [min]="minPrice"
-          [max]="maxPrice"
-          [(ngModel)]="selectedPrice"
-          class="w-full accent-black"
-        />
-      </div>
-      <div class="mt-8">
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Sizes</h3>
-        <div class="grid grid-cols-3 gap-3">
-          @for (size of sizes; track size) {
-            <button
-              (click)="selectSize(size)"
-              class="rounded-lg border py-2 transition"
-              [class.bg-black]="selectedSize === size"
-              [class.text-white]="selectedSize === size"
-            >
-              {{ size }}
-            </button>
-          }
-        </div>
-      </div>
-      <div class="mt-8">
-        <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Colors</h3>
-        @for (color of colors; track color) {
+<div *ngIf="isOpen" (click)="close.emit()" class="fixed inset-0 z-40 bg-black/50 lg:hidden"></div>
+<aside
+  class="fixed z-50 h-screen w-[85vw] max-w-xs overflow-y-auto border-r border-gray-200 bg-white shadow-lg transition-transform duration-300 lg:sticky lg:top-16 lg:h-screen lg:translate-x-0 lg:shadow-sm"
+  [class.-translate-x-full]="!isOpen"
+  [class.translate-x-0]="isOpen"
+>
+  <div class="p-6">
+    <div class="flex justify-end lg:hidden">
+      <button (click)="close.emit()" class="text-3xl">✕</button>
+    </div>
+    <p class="mt-1 text-sm text-gray-500">Women's Fashion</p>
+    <div class="mt-6">
+      <input
+        type="text"
+        placeholder="Search..."
+        (input)="searchProduct()"
+        [(ngModel)]="search"
+        (keyup.enter)="applyFilters()"
+        class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black"
+      />
+    </div>
+    <div class="mt-8">
+      <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Categories</h3>
+      <div class="space-y-2">
+        @for (category of categories; track category.id) {
           <button
-            (click)="selectColor(color)"
-            class="h-8 w-8 rounded-full border-2"
-            [style.background]="color"
-            [class.border-black]="selectedColor === color"
-            [class.border-gray-300]="selectedColor !== color"
-            [ngStyle]="getColorStyle(color)"
-          ></button>
+            (click)="selectCategory(category.id)"
+            class="block w-full rounded-lg px-3 py-2 text-left transition hover:bg-gray-100"
+            [class.bg-black]="selectedCategory === category.id"
+            [class.text-white]="selectedCategory === category.id"
+          >
+            {{ category.name }}
+          </button>
         }
       </div>
-      <button
-        (click)="applyFilters()"
-        class="mt-10 w-full rounded-xl bg-black py-3 text-white transition hover:bg-gray-800"
-      >
-        Apply Filters
-      </button>
     </div>
-  </aside>
-</div>
+    <div class="mt-8">
+      <div class="mb-2 flex justify-between text-sm">
+        <span>${{ minPrice }}</span>
+        <span>${{ selectedPrice }}</span>
+      </div>
+      <input
+        type="range"
+        [min]="minPrice"
+        [max]="maxPrice"
+        [(ngModel)]="selectedPrice"
+        class="w-full accent-black"
+      />
+    </div>
+    <div class="mt-8">
+      <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Sizes</h3>
+      <div class="grid grid-cols-3 gap-3">
+        @for (size of sizes; track size) {
+          <button
+            (click)="selectSize(size)"
+            class="rounded-lg border py-2 transition"
+            [class.bg-black]="selectedSize === size"
+            [class.text-white]="selectedSize === size"
+          >
+            {{ size }}
+          </button>
+        }
+      </div>
+    </div>
+    <div class="mt-8">
+      <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Colors</h3>
+      @for (color of colors; track color) {
+        <button
+          (click)="selectColor(color)"
+          class="h-8 w-8 rounded-full border-2"
+          [style.background]="color"
+          [class.border-black]="selectedColor === color"
+          [class.border-gray-300]="selectedColor !== color"
+          [ngStyle]="getColorStyle(color)"
+        ></button>
+      }
+    </div>
+    <button
+      (click)="applyFilters()"
+      class="mt-10 w-full rounded-xl bg-black py-3 text-white transition hover:bg-gray-800"
+    >
+      Apply Filters
+    </button>
+  </div>
+</aside>

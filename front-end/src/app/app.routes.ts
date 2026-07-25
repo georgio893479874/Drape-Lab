@@ -9,10 +9,8 @@ import { Product } from './pages/product/product';
 import { Cart } from './pages/cart/cart';
 import { Profile } from './pages/profile/profile';
 import { NotFound } from './pages/not-found/not-found';
-
 import { authGuard } from './guards/auth-guard';
 import { guestGuard } from './guards/guest-guard';
-
 import { productResolver } from './resolvers/product-resolver';
 
 export const routes: Routes = [
