@@ -41,8 +41,6 @@ export class Breadcrumb {
       }
 
       let label = child.snapshot.data['breadcrumb'];
-
-      // якщо це сторінка товару
       if (!label && child.snapshot.data['product']) {
         label = child.snapshot.data['product'].name;
       }
