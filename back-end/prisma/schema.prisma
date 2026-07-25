@@ -47,6 +47,7 @@ model User {
   reviews      Review[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  cart         Cart?
 }
 
 model Category {
@@ -110,8 +111,9 @@ model Address {
 
 model Cart {
   id        String     @id @default(cuid())
-  userId    String?
-  sessionId String?
+  userId    String?    @unique
+  user      User?      @relation(fields: [userId], references: [id])
+  sessionId String?    @unique
   items     CartItem[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
