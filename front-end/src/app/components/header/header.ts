@@ -34,6 +34,7 @@ export class Header {
   private router = inject(Router);
   @Input() showMenuButton = false;
   @Output() menuClick = new EventEmitter<void>();
+  user = this.auth.user();
 
   get isLoggedIn() {
     return this.auth.isAuthenticated();

@@ -1,1 +1,81 @@
-<p>profile works!</p>
+@if (loading) {
+  <div class="flex h-screen items-center justify-center">
+    <div class="text-xl">Loading...</div>
+  </div>
+} @else if (user) {
+  <div class="min-h-screen bg-slate-100 py-10">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid gap-8 lg:grid-cols-[320px_1fr]">
+        <aside class="rounded-3xl bg-white p-8 shadow">
+          <div class="flex flex-col items-center">
+            <div
+              class="flex h-28 w-28 items-center justify-center rounded-full bg-slate-200 text-4xl font-bold"
+            >
+              {{ user.firstName[0] }}{{ user.lastName[0] }}
+            </div>
+            <h2 class="mt-6 text-2xl font-bold">{{ user.firstName }} {{ user.lastName }}</h2>
+            <p class="mt-2 text-slate-500">
+              {{ user.email }}
+            </p>
+          </div>
+          <button
+            (click)="signOut()"
+            class="mt-10 w-full rounded-xl bg-fuchsia-400 py-3 font-semibold text-white hover:bg-fuchsia-500"
+          >
+            Sign out
+          </button>
+        </aside>
+        <main class="space-y-6">
+          <div class="rounded-3xl bg-white p-8 shadow">
+            <h1 class="text-3xl font-bold">Personal information</h1>
+            <p class="mt-2 text-slate-500">Manage your account information.</p>
+          </div>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">First Name</p>
+              <h3 class="mt-3 text-xl font-semibold">
+                {{ user.firstName }}
+              </h3>
+            </div>
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">Last Name</p>
+              <h3 class="mt-3 text-xl font-semibold">
+                {{ user.lastName }}
+              </h3>
+            </div>
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">Email</p>
+              <h3 class="mt-3 text-xl font-semibold break-all">
+                {{ user.email }}
+              </h3>
+            </div>
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">Addresses</p>
+              <h3 class="mt-3 text-xl font-semibold">
+                {{ user.addresses.length }}
+              </h3>
+            </div>
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">Orders</p>
+              <h3 class="mt-3 text-xl font-semibold">
+                {{ user.orders.length }}
+              </h3>
+            </div>
+            <div class="rounded-3xl bg-white p-6 shadow">
+              <p class="text-sm text-slate-500">Reviews</p>
+              <h3 class="mt-3 text-xl font-semibold">
+                {{ user.reviews.length }}
+              </h3>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="flex h-screen items-center justify-center">
+    <div class="rounded-2xl bg-white p-10 shadow">
+      <h2 class="text-3xl font-bold">User not found</h2>
+    </div>
+  </div>
+}

@@ -6,10 +6,11 @@ import { RouterOutlet, Router, NavigationEnd, ActivatedRoute } from '@angular/ro
 import { filter } from 'rxjs';
 import { Sidebar } from './components/sidebar/sidebar';
 import { AuthService } from './services/auth.service';
+import { Breadcrumb } from './components/breadcrumb/breadcrumb';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Header, Footer, RouterOutlet, Sidebar],
+  imports: [CommonModule, Header, Footer, RouterOutlet, Sidebar, Breadcrumb],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })

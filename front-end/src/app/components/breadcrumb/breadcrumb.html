@@ -1,0 +1,11 @@
+@if (breadcrumbs.length) {
+  <nav class="mx-auto mt-6 max-w-7xl px-6 text-sm text-slate-500">
+    <a routerLink="/main" class="hover:text-black"> Home </a>
+    @for (crumb of breadcrumbs; track crumb.url) {
+      <span class="mx-2">/</span>
+      <a [routerLink]="crumb.url" class="hover:text-black">
+        {{ crumb.label }}
+      </a>
+    }
+  </nav>
+}

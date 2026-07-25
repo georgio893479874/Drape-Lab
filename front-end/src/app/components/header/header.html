@@ -54,7 +54,7 @@
             0
           </span>
         </a>
-        <a routerLink="/profile" class="rounded-full p-2 transition hover:bg-slate-100">
+        <a [routerLink]="['/profile', user.id]" class="rounded-full p-2 transition hover:bg-slate-100">
           <ng-icon name="heroUserCircle" size="28"> </ng-icon>
         </a>
         <button (click)="logout()" class="rounded-full p-2 transition hover:bg-slate-100">
